@@ -64,22 +64,75 @@ $last_line = system($query, $retval);
 <!DOCTYPE html>
 <html>
 <head>
+
 <style>
-.change {
-  background-color: lightgray;
-  color: black;
-  border: 0px solid black;
-  margin: 5px;
-  padding: 1px;
-}
-.query {
-  background-color: red;
-  color: black;
-  border: 2px solid black;
-  margin: 5px;
-  padding: 1px;
-}
+   .change {
+   background-color: lightgray;
+   color: black;
+   border: 0px solid black;
+   margin: 5px;
+   padding: 1px;
+   }
+   .query {
+   background-color: red;
+   color: black;
+   border: 2px solid black;
+   margin: 5px;
+   padding: 1px;
+   }
+
+   #updated_changelog {
+      background-color: lightgreen;
+      color: black;
+      border: 0px solid black;
+      margin: 5px;
+      padding: 1px;
+   }
 </style>
+
+<script>
+   function check_checker() {
+      var inputElements = document.getElementsByClassName('changeCheckbox');
+      console.log(inputElements);
+      for(var i=0; inputElements[i]; ++i){
+         if(inputElements[i].checked){
+            const element = document.getElementById(inputElements[i].value);
+            console.log(element);
+            element.innerHTML = "- " + inputElements[i].value;
+         }else{
+            const element = document.getElementById(inputElements[i].value);
+            console.log(element);
+            element.innerHTML = "";
+         }
+      }
+   }
+
+   function update_changelog(json){
+      console.log(json);
+
+      var checkedValue = []; 
+      var inputElements = document.getElementsByClassName('changeCheckbox');
+      for(var i=0; inputElements[i]; ++i){
+         if(inputElements[i].checked){
+            checkedValue.push(inputElements[i].value);
+         }
+      }
+      up_json = {};
+      up_json.databaseChangeLog = [];
+      for(var i=0; i < json.databaseChangeLog.length; i++){
+         id = json.databaseChangeLog[i].changeSet.id;
+         if(checkedValue.includes(id)){
+            console.log(id);
+            up_json.databaseChangeLog.push(json.databaseChangeLog[i]);
+         }
+      }
+      console.log(up_json);
+      const element = document.getElementById("updated_changelog");
+      element.innerHTML = JSON.stringify(up_json);
+   }
+
+</script>
+
 </head>
 <body>
 
@@ -93,36 +146,56 @@ $last_line = system($query, $retval);
 <h2>List of differences found:</h2>
 
 <?php
-
-$jsonData =  file_get_contents($chlog_file);
-$jsonData = stripslashes(html_entity_decode($jsonData));
-$json=json_decode($jsonData,false);
-$numCS = count($json->databaseChangeLog);
-
+   $jsonData =  file_get_contents($chlog_file);
+   //print($jsonData);
+   $jsonData = stripslashes(html_entity_decode($jsonData));
+   $json=json_decode($jsonData,false);
+   $numCS = count($json->databaseChangeLog);
 ?>
 
 <form>
-
 <?php
-
-for($i=0; $i<$numCS; $i++){
-   $numCh = count($json->databaseChangeLog[$i]->changeSet->changes);
-   //print($numCh);
-   for($j=0; $j<$numCh; $j++){
+   $ch_idx = [];
+   for($i=0; $i<$numCS; $i++){
+      $numCh = count($json->databaseChangeLog[$i]->changeSet->changes);
+      //print($numCh);
+      if($numCh > 1){
+         // DO SOMETHING!
+      }
+      array_push($ch_idx, $json->databaseChangeLog[$i]->changeSet->id);
       echo "<div class=\"change\">";
-      echo "<input type=\"checkbox\" id=\"" . $json->databaseChangeLog[$i]->changeSet->id . "\">";
+      echo "<input type=\"checkbox\" class=\"changeCheckbox\" 
+               value=\"" . $json->databaseChangeLog[$i]->changeSet->id . "\"
+               onchange=\"check_checker();\"
+               name=\"" . $json->databaseChangeLog[$i]->changeSet->id . "\" >";
+      echo "<label for=\"" . $json->databaseChangeLog[$i]->changeSet->id . "\">ID = " . 
+               $json->databaseChangeLog[$i]->changeSet->id . "</label>";
       echo "<pre>";
       //print_r($json->databaseChangeLog[$i]->changeSet->changes[$j]);
-      echo json_encode($json->databaseChangeLog[$i]->changeSet->changes[$j], JSON_PRETTY_PRINT);
+      echo json_encode($json->databaseChangeLog[$i]->changeSet->changes, JSON_PRETTY_PRINT);
       echo "</pre>";
       echo "</div>";
+      
    }
-}
+?>
+</form>
 
+<script>
+    var my_var = <?php echo(json_encode($json)); ?>;
+    console.log(my_var)
+</script>
+
+<button onclick="update_changelog(my_var, );">Send changes</button>
+
+<h2>Selected changes:</h2>
+<?php
+   for($i = 0; $i < count($ch_idx); $i++){
+      echo "<div id=\"" . $ch_idx[$i] . "\"></div>\n";
+   }
 ?>
 
-<input type="submit">
-</form>
+<h2>Updated changeLog:</h2>
+<div id="updated_changelog"></div>
 
 </body>
 </html>
