@@ -1,0 +1,17 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1646388511508-1",
+      "author": "www-data (generated)",
+      "changes": [
+        {
+          "dropColumn": {
+            "columnName": "Price",
+            "tableName": "Purchase"
+          }
+        }]
+      
+    }
+  }
+  
+]}

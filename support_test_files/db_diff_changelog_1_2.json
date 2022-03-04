@@ -1,0 +1,54 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1646394045252-1",
+      "author": "www-data (generated)",
+      "changes": [
+        {
+          "createTable": {
+            "columns": [
+              {
+                "column": {
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "INT"
+                }
+              },
+              {
+                "column": {
+                  "name": "Name",
+                  "type": "VARCHAR(50)"
+                }
+              },
+              {
+                "column": {
+                  "name": "Qty",
+                  "type": "INT"
+                }
+              }]
+            ,
+            "tableName": "Purchase"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1646394045252-2",
+      "author": "www-data (generated)",
+      "changes": [
+        {
+          "dropTable": {
+            "tableName": "other_table"
+          }
+        }]
+      
+    }
+  }
+  
+]}

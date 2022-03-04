@@ -11,17 +11,31 @@
 // Target DB user: <input type="text" name="tar_user"><br>
 // Target DB password: <input type="text" name="tar_pass"><br>
 
-$ref_url = $_POST["ref_url"];
-$ref_port = $_POST["ref_port"];
-$ref_name = $_POST["ref_name"];
-$ref_user = $_POST["ref_user"];
-$ref_pass = $_POST["ref_pass"];
+if($_POST){
+   $ref_url = $_POST["ref_url"];
+   $ref_port = $_POST["ref_port"];
+   $ref_name = $_POST["ref_name"];
+   $ref_user = $_POST["ref_user"];
+   $ref_pass = $_POST["ref_pass"];
 
-$tar_url = $_POST["tar_url"];
-$tar_port = $_POST["tar_port"];
-$tar_name = $_POST["tar_name"];
-$tar_user = $_POST["tar_user"];
-$tar_pass = $_POST["tar_pass"];
+   $tar_url = $_POST["tar_url"];
+   $tar_port = $_POST["tar_port"];
+   $tar_name = $_POST["tar_name"];
+   $tar_user = $_POST["tar_user"];
+   $tar_pass = $_POST["tar_pass"];
+}else{
+   $ref_url = "192.168.1.108";
+   $ref_port = "3306";
+   $ref_name = "liquibase_test";
+   $ref_user = "admin";
+   $ref_pass = "password";
+
+   $tar_url = "192.168.1.108";
+   $tar_port = "3306";
+   $tar_name = "liquibase_test_2";
+   $tar_user = "admin";
+   $tar_pass = "password";
+}
 
 $chlog_file = "/var/www/html/changelogs/db_diff_changelog.json";
 
