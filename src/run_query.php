@@ -23,10 +23,17 @@ $tar_name = $_POST["tar_name"];
 $tar_user = $_POST["tar_user"];
 $tar_pass = $_POST["tar_pass"];
 
-$chlog_file = '/var/www/html/changelogs/db_diff_changelog.json';
-if (file_exists($clog_file)) {
-    unlink($clog_file);
+$chlog_file = "/var/www/html/changelogs/db_diff_changelog.json";
+
+$present = file_exists($chlog_file);
+echo "TEST: " . $present ."<br>"; //./changelogs/db_diff_changelog.json") . "<br>";
+if ($present==1) {
+    echo "File found! " . $chlog_file . "\n";
+    system("rm " . $chlog_file);
+ } else {
+     echo "File NOT found!\n";
  }
+ // php -r 'echo file_exists("/var/www/html/changelogs/db_diff_changelog.json") . "\n";'
 
 $query = 'liquibase --url="jdbc:mysql://' . $tar_url . ':' . $tar_port . '/' . $tar_name . '"' .
 ' --username=' . $tar_user .
