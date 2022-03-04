@@ -2,7 +2,7 @@
 docker build -t liquibase/liquibase-mysql-apache .
 
 docker run --rm -it --name lqgui -p 8080:80 liquibase/liquibase-mysql-apache
-sudo docker run --rm -it -v /home/ubuntu/Projects/liquibase_diff_gui/src:/var/www/html --name lqgui -p 8080:80 liquibase/liquibase-mysql-apache
+sudo docker run --rm -it -v /mnt/c/Users/Marco/Documents/LiquibaseGUI/src:/var/www/html --name lqgui -p 8080:80 liquibase/liquibase-mysql-apache
 
 docker exec -it lqgui bash
 
