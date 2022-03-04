@@ -27,10 +27,14 @@ RUN dpkg -i mysql-connector-java_8.0.28-1ubuntu20.04_all.deb
 RUN cp /usr/share/java/mysql-connector-java-8.0.28.jar ./liquibase-4.8.0/lib/
 
 # copy php gui files
-COPY ./src /var/www/html
+COPY src/index.php /var/www/html/index.php
+COPY src/run_query.php /var/www/html/run_query.php
 RUN mkdir /var/www/html/changelogs
+# RUN ls /var/www/html
 RUN chown www-data:www-data /var/www/html/changelogs
 RUN chmod g+w /var/www/html/changelogs
+RUN usermod -u 1000 www-data
+# RUN usermod -G staff www-data
 
 # copy liquibase files
 COPY ./liquibase_file/db.template.changelog.xml .

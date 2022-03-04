@@ -40,12 +40,12 @@ if($_POST){
 $chlog_file = "/var/www/html/changelogs/db_diff_changelog.json";
 
 $present = file_exists($chlog_file);
-echo "TEST: " . $present ."<br>"; //./changelogs/db_diff_changelog.json") . "<br>";
+//echo "TEST: " . $present ."<br>"; //./changelogs/db_diff_changelog.json") . "<br>";
 if ($present==1) {
-    echo "File found! " . $chlog_file . "\n";
+    //echo "File found! " . $chlog_file . "\n";
     system("rm " . $chlog_file);
  } else {
-     echo "File NOT found!\n";
+     //echo "File NOT found!\n";
  }
  // php -r 'echo file_exists("/var/www/html/changelogs/db_diff_changelog.json") . "\n";'
 
@@ -61,42 +61,68 @@ $query = 'liquibase --url="jdbc:mysql://' . $tar_url . ':' . $tar_port . '/' . $
 $last_line = system($query, $retval);
 
 ?>
+<!DOCTYPE html>
 <html>
+<head>
+<style>
+.change {
+  background-color: lightgray;
+  color: black;
+  border: 0px solid black;
+  margin: 5px;
+  padding: 1px;
+}
+.query {
+  background-color: red;
+  color: black;
+  border: 2px solid black;
+  margin: 5px;
+  padding: 1px;
+}
+</style>
+</head>
 <body>
 
-<p> DEBUG: </p>
-query = <?php echo($query); ?> <br>
-retval = <?php echo($retval); ?> <br>
-last_line = <?php echo($last_line); ?> <br>
+<h1>Results</h1>
 
-<p> Liquibase diff-changelog executed! </p>
-<p>List of changes found:</p>
+<h2>Query</h2>
+<div class="query">
+<?php echo($query); ?> <br>
+</div>
+
+<h2>List of differences found:</h2>
+
 <?php
 
 $jsonData =  file_get_contents($chlog_file);
 $jsonData = stripslashes(html_entity_decode($jsonData));
-$json=json_decode($jsonData,true);
+$json=json_decode($jsonData,false);
+$numCS = count($json->databaseChangeLog);
 
-foreach($json as $cl){
-   foreach($cl as $cset){
-      foreach($cset as $cset_i){
-         foreach($cset_i['changes'] as $op_key => $op_arr){
-            echo "<ul>";
-            foreach($op_arr as $op_j_key => $op_j_arr){
-               //print($op_j_key . "\n");
-               echo "<li>[" . $op_j_key . "]";
-               foreach($op_j_arr as $spec_key => $spec_val){
-                  echo " - " . $spec_key . ":" . $spec_val;   
-               }
-               echo "</li>";
-            }
-            echo "</ul>";
-         }
-      }
+?>
+
+<form>
+
+<?php
+
+for($i=0; $i<$numCS; $i++){
+   $numCh = count($json->databaseChangeLog[$i]->changeSet->changes);
+   //print($numCh);
+   for($j=0; $j<$numCh; $j++){
+      echo "<div class=\"change\">";
+      echo "<input type=\"checkbox\" id=\"" . $json->databaseChangeLog[$i]->changeSet->id . "\">";
+      echo "<pre>";
+      //print_r($json->databaseChangeLog[$i]->changeSet->changes[$j]);
+      echo json_encode($json->databaseChangeLog[$i]->changeSet->changes[$j], JSON_PRETTY_PRINT);
+      echo "</pre>";
+      echo "</div>";
    }
 }
 
 ?>
+
+<input type="submit">
+</form>
 
 </body>
 </html>

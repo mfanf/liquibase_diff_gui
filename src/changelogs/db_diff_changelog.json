@@ -1,0 +1,39 @@
+{ "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1646418381303-1",
+      "author": "www-data (generated)",
+      "changes": [
+        {
+          "addColumn": {
+            "columns": [
+              {
+                "column": {
+                  "name": "kind",
+                  "type": "VARCHAR(45 BYTE)"
+                }
+              }]
+            ,
+            "tableName": "table_test"
+          }
+        }]
+      
+    }
+  },
+  
+  {
+    "changeSet": {
+      "id": "1646418381303-2",
+      "author": "www-data (generated)",
+      "changes": [
+        {
+          "dropColumn": {
+            "columnName": "value",
+            "tableName": "table_test"
+          }
+        }]
+      
+    }
+  }
+  
+]}
