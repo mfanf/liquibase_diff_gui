@@ -8,16 +8,32 @@ LABEL description="This is custom Docker Image for PHP based liquibase GUI"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update Ubuntu Software repository
-# RUN apt update
-# RUN apt install -y apache2
+# install java
+RUN apt-get update && \
+    apt-get -y install default-jre-headless && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY ./src /var/www/html
-
+# install liquibase and mysql connector
 WORKDIR /liquibase
-RUN apt install -y curl
-RUN curl https://github.com/liquibase/liquibase/releases/download/v4.8.0/liquibase-4.8.0.tar.gz
-# ESTRAI E POI INSTALLA, see https://docs.liquibase.com/install/liquibase-linux.html
+RUN apt-get install -y curl
+RUN curl -LJO https://github.com/liquibase/liquibase/releases/download/v4.8.0/liquibase-4.8.0.tar.gz
+RUN mkdir ./liquibase-4.8.0
+RUN tar -zxvf liquibase-4.8.0.tar.gz -C ./liquibase-4.8.0
+ENV PATH=$PATH:/liquibase/liquibase-4.8.0
+
+RUN curl -LJO https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java_8.0.28-1ubuntu20.04_all.deb
+RUN dpkg -i mysql-connector-java_8.0.28-1ubuntu20.04_all.deb
+RUN cp /usr/share/java/mysql-connector-java-8.0.28.jar ./liquibase-4.8.0/lib/
+
+# copy php gui files
+COPY ./src /var/www/html
+RUN mkdir /var/www/html/changelogs
+RUN chown www-data:www-data /var/www/html/changelogs
+RUN chmod g+w /var/www/html/changelogs
+
+# copy liquibase files
+COPY ./liquibase_file/db.template.changelog.xml .
 
 # Expose Port for the Application 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
