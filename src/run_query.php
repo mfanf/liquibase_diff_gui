@@ -90,7 +90,10 @@ $last_line = system($query, $retval);
    }
 </style>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
 <script>
+
    function check_checker() {
       var inputElements = document.getElementsByClassName('changeCheckbox');
       console.log(inputElements);
@@ -127,8 +130,28 @@ $last_line = system($query, $retval);
          }
       }
       console.log(up_json);
-      const element = document.getElementById("updated_changelog");
-      element.innerHTML = JSON.stringify(up_json);
+      document.getElementById("updated_changelog").appendChild(document.createElement('pre')).innerHTML = JSON.stringify(up_json, null, 2);
+   }
+
+   function send_changelog(){
+      jQuery.ajax("apply_changes.php", {
+         type: "POST",
+         url: 'apply_changes.php',
+         dataType: 'json',
+         data: JSON.stringify(up_json, null, 2),
+         async: false,
+         success: function (obj, textstatus, jqXHR) {
+                        console.log(obj);
+                        console.log(textstatus);
+                        console.log(jqXHR);
+                        if( !('error' in jqXHR) ) {
+                           yourVariable = jqXHR.result;
+                        }
+                        else {
+                           console.log(jqXHR.error);
+                        }
+                  }
+      });
    }
 
 </script>
@@ -185,7 +208,7 @@ $last_line = system($query, $retval);
     console.log(my_var)
 </script>
 
-<button onclick="update_changelog(my_var, );">Send changes</button>
+<button onclick="update_changelog(my_var, );">Apply changes</button>
 
 <h2>Selected changes:</h2>
 <?php
@@ -195,7 +218,11 @@ $last_line = system($query, $retval);
 ?>
 
 <h2>Updated changeLog:</h2>
-<div id="updated_changelog"></div>
+<div id="updated_changelog">
+
+   <button onclick="send_changelog();">Send changes</button>
+
+</div>
 
 </body>
 </html>
