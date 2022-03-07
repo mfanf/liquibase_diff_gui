@@ -1,20 +1,36 @@
 { "databaseChangeLog": [
   {
     "changeSet": {
-      "id": "1646651681480-1",
+      "id": "1646659782040-1",
       "author": "www-data (generated)",
       "changes": [
         {
-          "addColumn": {
+          "createTable": {
             "columns": [
               {
                 "column": {
-                  "name": "kind",
-                  "type": "VARCHAR(45 BYTE)"
+                  "constraints": {
+                    "nullable": false,
+                    "primaryKey": true
+                  },
+                  "name": "id",
+                  "type": "INT"
+                }
+              },
+              {
+                "column": {
+                  "name": "Name",
+                  "type": "VARCHAR(50)"
+                }
+              },
+              {
+                "column": {
+                  "name": "Qty",
+                  "type": "INT"
                 }
               }]
             ,
-            "tableName": "table_test"
+            "tableName": "Purchase"
           }
         }]
       
@@ -23,13 +39,12 @@
   
   {
     "changeSet": {
-      "id": "1646651681480-2",
+      "id": "1646659782040-2",
       "author": "www-data (generated)",
       "changes": [
         {
-          "dropColumn": {
-            "columnName": "value",
-            "tableName": "table_test"
+          "dropTable": {
+            "tableName": "other_table"
           }
         }]
       

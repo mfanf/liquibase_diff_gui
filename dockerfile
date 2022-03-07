@@ -30,19 +30,25 @@ RUN cp /usr/share/java/mysql-connector-java-8.0.28.jar ./liquibase-4.8.0/lib/
 COPY src/index.php /var/www/html/index.php
 COPY src/run_query.php /var/www/html/run_query.php
 RUN mkdir /var/www/html/changelogs
-# RUN ls /var/www/html
-RUN chown www-data:www-data /var/www/html/changelogs
-RUN chmod g+w /var/www/html/changelogs
-RUN usermod -u 1000 www-data
-# RUN usermod -G staff www-data
 
 # copy liquibase files
 COPY ./liquibase_file/db.template.changelog.xml .
+
+# set ownership
+RUN chown www-data:www-data /var/www/html/changelogs
+RUN chmod g+w /var/www/html/changelogs
+
+# DEVELOPMENT ###
+# RUN ls /var/www/html
+RUN usermod -u 1000 www-data
+# RUN usermod -G staff www-data
+#################
+
 
 # Expose Port for the Application 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 RUN service apache2 start
 EXPOSE 80 443
 
-#CMD ["/bin/bash"]
+#run apache
 CMD apachectl -D FOREGROUND
