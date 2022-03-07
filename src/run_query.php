@@ -87,6 +87,7 @@ $last_line = system($query, $retval);
       border: 0px solid black;
       margin: 5px;
       padding: 1px;
+      display: none;
    }
 </style>
 
@@ -130,7 +131,8 @@ $last_line = system($query, $retval);
          }
       }
       console.log(up_json);
-      document.getElementById("updated_changelog").appendChild(document.createElement('pre')).innerHTML = JSON.stringify(up_json, null, 2);
+      document.getElementById("json_changes").appendChild(document.createElement('pre')).innerHTML = JSON.stringify(up_json, null, 2);
+      document.getElementById("updated_changelog").style.display = "block";
    }
 
    function send_changelog(){
@@ -217,11 +219,11 @@ $last_line = system($query, $retval);
    }
 ?>
 
-<h2>Updated changeLog:</h2>
+
 <div id="updated_changelog">
-
+   <h2>Updated changeLog:</h2>
+   <div id="json_changes"> </div>
    <button onclick="send_changelog();">Send changes</button>
-
 </div>
 
 </body>
