@@ -1,0 +1,23 @@
+.change {
+    background-color: lightgray;
+    color: black;
+    border: 0px solid black;
+    margin: 5px;
+    padding: 1px;
+}
+.query {
+background-color: red;
+color: black;
+border: 2px solid black;
+margin: 5px;
+padding: 1px;
+}
+
+#updated_changelog {
+    background-color: lightgreen;
+    color: black;
+    border: 0px solid black;
+    margin: 5px;
+    padding: 1px;
+    display: none;
+}

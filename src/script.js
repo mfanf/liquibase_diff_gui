@@ -38,23 +38,26 @@ function check_checker() {
     document.getElementById("updated_changelog").style.display = "block";
  }
 
- function send_changelog(){
+ var getPhpResponse = function( data ) {
+   console.log(data);
+}
+
+ function send_changelog( conn_data ){
+    console.log(conn_data);
+    console.log('sending?')
     jQuery.ajax("apply_changes.php", {
        type: "POST",
        url: 'apply_changes.php',
        dataType: 'json',
-       data: JSON.stringify(up_json, null, 2),
-       async: false,
+       data: JSON.stringify({conn_data: [conn_data], changes: [up_json]}),
+       async: true,
        success: function (obj, textstatus, jqXHR) {
-                      console.log(obj);
-                      console.log(textstatus);
-                      console.log(jqXHR);
-                      if( !('error' in jqXHR) ) {
-                         yourVariable = jqXHR.result;
-                      }
-                      else {
-                         console.log(jqXHR.error);
-                      }
-                }
+          console.log(obj);
+          console.log(textstatus);
+          console.log(jqXHR);
+          //getPhpResponse( obj );
+      }
     });
+    console.log('sent!');
  }
+

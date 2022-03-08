@@ -1,95 +1,18 @@
 <?php
 
-// Reference DB url: <input type="text" name="ref_url"><br>
-// Reference DB port: <input type="text" name="ref_port"><br>
-// Reference DB name: <input type="text" name="ref_name"><br>
-// Reference DB user: <input type="text" name="ref_user"><br>
-// Reference DB password: <input type="text" name="ref_pass"><br>
-// Target DB url: <input type="text" name="tar_url"><br>
-// Target DB port: <input type="text" name="tar_port"><br>
-// Target DB name: <input type="text" name="tar_name"><br>
-// Target DB user: <input type="text" name="tar_user"><br>
-// Target DB password: <input type="text" name="tar_pass"><br>
-
-if($_POST){
-   $ref_url = $_POST["ref_url"];
-   $ref_port = $_POST["ref_port"];
-   $ref_name = $_POST["ref_name"];
-   $ref_user = $_POST["ref_user"];
-   $ref_pass = $_POST["ref_pass"];
-
-   $tar_url = $_POST["tar_url"];
-   $tar_port = $_POST["tar_port"];
-   $tar_name = $_POST["tar_name"];
-   $tar_user = $_POST["tar_user"];
-   $tar_pass = $_POST["tar_pass"];
-}else{
-   $ref_url = "192.168.1.108";
-   $ref_port = "3306";
-   $ref_name = "liquibase_test";
-   $ref_user = "admin";
-   $ref_pass = "password";
-
-   $tar_url = "192.168.1.108";
-   $tar_port = "3306";
-   $tar_name = "liquibase_test_2";
-   $tar_user = "admin";
-   $tar_pass = "password";
-}
-
-$chlog_file = "/var/www/html/changelogs/db_diff_changelog.json";
-
-$present = file_exists($chlog_file);
-//echo "TEST: " . $present ."<br>"; //./changelogs/db_diff_changelog.json") . "<br>";
-if ($present==1) {
-    //echo "File found! " . $chlog_file . "\n";
-    system("rm " . $chlog_file);
- } else {
-     //echo "File NOT found!\n";
- }
- // php -r 'echo file_exists("/var/www/html/changelogs/db_diff_changelog.json") . "\n";'
-
-$query = 'liquibase --url="jdbc:mysql://' . $tar_url . ':' . $tar_port . '/' . $tar_name . '"' .
-' --username=' . $tar_user .
-' --password=' . $tar_pass .
-' --referenceUrl="jdbc:mysql://' . $ref_url . ':' . $ref_port . '/' . $ref_name . '"' .
-' --referenceUsername=' . $ref_user .
-' --referencePassword=' . $ref_pass .
-' --changelog-file=' . $chlog_file . 
-' diff-changelog';
-
-$last_line = system($query, $retval);
-
+   include 'functions.php';
+   $chlog_file = "/var/www/html/changelogs/db_diff_changelog.json";
+   $res = do_diffCahngelog($_POST, $chlog_file);
+   $conn_data = $res[0];
+   $query = $res[1];
+   $js_conn_data = json_encode($conn_data);
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
 
-<style>
-   .change {
-   background-color: lightgray;
-   color: black;
-   border: 0px solid black;
-   margin: 5px;
-   padding: 1px;
-   }
-   .query {
-   background-color: red;
-   color: black;
-   border: 2px solid black;
-   margin: 5px;
-   padding: 1px;
-   }
-
-   #updated_changelog {
-      background-color: lightgreen;
-      color: black;
-      border: 0px solid black;
-      margin: 5px;
-      padding: 1px;
-      display: none;
-   }
-</style>
+<link rel="stylesheet" href="style.css">
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
@@ -157,10 +80,11 @@ $last_line = system($query, $retval);
 ?>
 
 
+
 <div id="updated_changelog">
    <h2>Updated changeLog:</h2>
    <div id="json_changes"> </div>
-   <button onclick="send_changelog();">Send changes</button>
+   <button onclick='send_changelog(<?php echo $js_conn_data; ?>);'>Send changes</button>
 </div>
 
 </body>
