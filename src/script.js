@@ -62,14 +62,15 @@ function check_checker() {
             console.log('sent!');
             
             document.getElementById("updated_changelog").style.display = "none";
-            document.getElementById("final_result").innerHTML = "Success!<br>";
-            document.getElementById("final_result").appendChild(document.createElement('pre')).innerHTML = JSON.stringify(obj, null, 2);
+            document.getElementById("final_result").innerHTML += "<h3>Success!</h3><p>All changes have been applied to target DB.</p>";
+            document.getElementById("final_result").innerHTML += "<div id='back'><a href='index.php'>Back</a></div>";
             document.getElementById("final_result").style.display = "block";
           }else{
             console.log('some problem :(');
             document.getElementById("updated_changelog").style.display = "none";
-            document.getElementById("final_result").innerHTML = "Some problem detected. Check if changes have been applied!<br>";
-            document.getElementById("final_result").appendChild(document.createElement('pre')).innerHTML = JSON.stringify(obj, null, 2);
+            document.getElementById("final_result").innerHTML += "<h3>Some problem detected</h3><p>Check if changes was applied.</p>";
+            document.getElementById("final_result").appendChild(document.createElement('pre')).innerHTML += JSON.stringify(obj, null, 2);
+            document.getElementById("final_result").innerHTML += "<div id='back'><a href='index.php'>Back</a></div>";
             document.getElementById("final_result").style.display = "block";
           }
       }

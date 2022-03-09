@@ -66,22 +66,21 @@
       console.log(my_var)
    </script>
 
-   <button onclick="update_changelog(my_var, );">Apply changes</button>
-
+   <div class="button_div">
+   <button onclick="update_changelog(my_var, );" class="button">Apply changes</button>
+   </div>
 </div>
-
-
-
-
 
 <div id="updated_changelog">
    <h2>Updated changeLog:</h2>
    <div id="json_changes"> </div>
-   <button onclick='send_changelog(<?php echo $js_conn_data; ?>);'>Send changes</button>
+   <div class="button_div">
+   <button onclick='send_changelog(<?php echo $js_conn_data; ?>);' class="button">Send changes</button>
+   </div>
 </div>
 
 <div id="final_result">
-<h2>Final output:</h2>
+
 </div>
 
 </body>
