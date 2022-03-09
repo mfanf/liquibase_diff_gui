@@ -24,11 +24,12 @@ $query = 'liquibase --url="jdbc:mysql://' . $conn_data->tar_url . ':' . $conn_da
 ' --changeLogFile=' . $changeSet_file_name . 
 ' update';
 
-//$last_line = system($query, $retval);
+// $last_line = system($query, $retval);
+$output = shell_exec($query);
 
-//echo $json_string;
-// " . str_replace(['"',':'],'',$query) . "
-echo '[{"responce": "' . str_replace(['"'],'\"',$query) . '"}]';
+echo '[{"responce": "' . str_replace(['"'],'\"',$query) . '",' .
+        '"retval": "' . $output . '"' .
+    '}]';
 
 
 ?>

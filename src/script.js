@@ -5,11 +5,12 @@ function check_checker() {
        if(inputElements[i].checked){
           const element = document.getElementById(inputElements[i].value);
           console.log(element);
-          element.innerHTML = "- " + inputElements[i].value;
+          element.style.backgroundColor="lightgreen";
+          //element.innerHTML = "- " + inputElements[i].value;
        }else{
           const element = document.getElementById(inputElements[i].value);
           console.log(element);
-          element.innerHTML = "";
+          element.style.backgroundColor="lightgray";
        }
     }
  }
@@ -34,6 +35,7 @@ function check_checker() {
        }
     }
     console.log(up_json);
+    document.getElementById("selector_div").style.display = "none";
     document.getElementById("json_changes").appendChild(document.createElement('pre')).innerHTML = JSON.stringify(up_json, null, 2);
     document.getElementById("updated_changelog").style.display = "block";
  }
@@ -56,8 +58,22 @@ function check_checker() {
           console.log(textstatus);
           console.log(jqXHR);
           //getPhpResponse( obj );
+          if(textstatus==="success"){
+            console.log('sent!');
+            
+            document.getElementById("updated_changelog").style.display = "none";
+            document.getElementById("final_result").innerHTML = "Success!<br>";
+            document.getElementById("final_result").appendChild(document.createElement('pre')).innerHTML = JSON.stringify(obj, null, 2);
+            document.getElementById("final_result").style.display = "block";
+          }else{
+            console.log('some problem :(');
+            document.getElementById("updated_changelog").style.display = "none";
+            document.getElementById("final_result").innerHTML = "Some problem detected. Check if changes have been applied!<br>";
+            document.getElementById("final_result").appendChild(document.createElement('pre')).innerHTML = JSON.stringify(obj, null, 2);
+            document.getElementById("final_result").style.display = "block";
+          }
       }
     });
-    console.log('sent!');
+    
  }
 

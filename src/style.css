@@ -14,7 +14,16 @@ padding: 1px;
 }
 
 #updated_changelog {
-    background-color: lightgreen;
+    background-color: white;
+    color: black;
+    border: 0px solid black;
+    margin: 5px;
+    padding: 1px;
+    display: none;
+}
+
+#final_result {
+    background-color: white;
     color: black;
     border: 0px solid black;
     margin: 5px;

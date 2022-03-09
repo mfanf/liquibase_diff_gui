@@ -1,7 +1,7 @@
 { "databaseChangeLog": [
   {
     "changeSet": {
-      "id": "1646741311065-1",
+      "id": "1646824889802-1",
       "author": "www-data (generated)",
       "changes": [
         {
@@ -31,20 +31,6 @@
               }]
             ,
             "tableName": "Purchase"
-          }
-        }]
-      
-    }
-  },
-  
-  {
-    "changeSet": {
-      "id": "1646741311065-2",
-      "author": "www-data (generated)",
-      "changes": [
-        {
-          "dropTable": {
-            "tableName": "other_table"
           }
         }]
       
