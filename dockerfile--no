@@ -1,6 +1,0 @@
-FROM liquibase/liquibase
-
-RUN lpm add mysql --global
-RUN apt update
-RUN apt install apache2
-RUN ufw allow in "Apache"
