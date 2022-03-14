@@ -1,10 +1,13 @@
-# liquibase_diff_gui
+# Liquibase Diff Tool GUI
+A simple web-based interface to use the diff-changelog command of [Liquibase](https://liquibase.org/) for assessing DB differences.
+
+## Usage
+
+1. Build the Docker image (it include Apache, PHP, Liquibase with MySQL connector)   
+```docker build -t liquibase/liquibase-mysql-apache .```
+2. Run the Docker container   
+```docker run --rm -it --name lqgui -p 8080:80 liquibase/liquibase-mysql-apache```
+3. Go to [http://localhost:8080/](http://localhost:8080/) and fill the form filed to connect to reference and target DBs
 
 
-* https://stackoverflow.com/questions/66586538/installing-apache-web-server-using-docker-file
-* https://stackoverflow.com/questions/44376852/how-to-start-apache2-automatically-in-a-ubuntu-docker-container
-* https://hub.docker.com/_/php
-* https://stackoverflow.com/questions/66586538/installing-apache-web-server-using-docker-file
-* https://devopscube.com/keep-docker-container-running/
-* > https://stackoverflow.com/questions/24629020/post-data-to-php-page-in-external-server-and-load-content-from-javascript-in-loc/24640552
-* https://docs.liquibase.com/commands/snapshot.html
+
