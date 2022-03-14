@@ -20,7 +20,7 @@
 <label>Reference DB user:</label> <input type="text" name="ref_user" id="ref_user" /><br>
 </div>
 <div class="styled-input wide">
-<label>Reference DB password:</label> <input type="text" name="ref_pass" id="ref_pass" /><br>
+<label>Reference DB password:</label> <input type="password" name="ref_pass" id="ref_pass" /><br>
 </div>
 <div class="styled-input wide">
 <label>Target DB url:</label> <input type="text" name="tar_url" id="tar_url" /><br>
@@ -35,7 +35,7 @@
 <label>Target DB user:</label> <input type="text" name="tar_user" id="tar_user" /><br>
 </div>
 <div class="styled-input wide">
-<label>Target DB password:</label> <input type="text" name="tar_pass" id="tar_pass" /><br>
+<label>Target DB password:</label> <input type="password" name="tar_pass" id="tar_pass" /><br>
 </div>
 <div class="submit-btn"><input type="submit"></div>
 </form>
