@@ -8,6 +8,13 @@
 <h1>Insert connection data</h1>
 <form action="run_query.php" method="post" autocomplete="on">
 <div class="styled-input wide">
+<label>Reference DBMS:</label> 
+<select id="dbms" name="ref_dbms">
+    <option value="mysql">MySQL</option>
+    <option value="maria">MariaDB</option>
+</select><br>
+</div>
+<div class="styled-input wide">
 <label>Reference DB url:</label> <input type="text" name="ref_url" id="ref_url" /><br>
 </div>
 <div class="styled-input wide">
@@ -21,6 +28,14 @@
 </div>
 <div class="styled-input wide">
 <label>Reference DB password:</label> <input type="password" name="ref_pass" id="ref_pass" /><br>
+</div>
+<!-- target -->
+<div class="styled-input wide">
+<label>Target DBMS:</label> 
+<select id="dbms" name="tar_dbms">
+    <option value="mysql">MySQL</option>
+    <option value="maria">MariaDB</option>
+</select><br>
 </div>
 <div class="styled-input wide">
 <label>Target DB url:</label> <input type="text" name="tar_url" id="tar_url" /><br>

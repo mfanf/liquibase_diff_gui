@@ -18,7 +18,15 @@ fclose($fp);
 
 $conn_data = $json->conn_data[0];
 
-$query = 'liquibase --url="jdbc:mysql://' . $conn_data->tar_url . ':' . $conn_data->tar_port . '/' . $conn_data->tar_name . '"' .
+if($conn_data->tar_dbms == "mysql"){
+    $tar_driver = "jdbc:mysql";
+}elseif($conn_data->tar_dbms == "maria"){
+    $tar_driver = "jdbc:mariadb";
+}
+
+// TODO: find a way to return an error if the update fails!!! <<<<
+
+$query = 'liquibase --url="' . $tar_driver . '://' . $conn_data->tar_url . ':' . $conn_data->tar_port . '/' . $conn_data->tar_name . '"' .
 ' --username=' . $conn_data->tar_user .
 ' --password=' . $conn_data->tar_pass .
 ' --changeLogFile=' . $changeSet_file_name . 

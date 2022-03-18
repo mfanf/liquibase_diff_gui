@@ -23,12 +23,12 @@
 
 <div id="selector_div" >
 
-<!---
+
    <h2>Query</h2>
    <div class="query">
-   <?php //echo($query); ?> <br>
+   <?php echo($query); ?> <br>
    </div>
--->
+
    <h2>List of differences found:</h2>
    <form>
    <?php
