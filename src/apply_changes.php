@@ -10,10 +10,19 @@ $json = json_decode($json_string,false);
 // encode the PHP variable to JSON and send it back on client-side
 // echo json_encode($json);
 
-$changeSet_file_name = 'changeSet_to_apply.json';
+// $changeSet_file_name = 'changeSet_to_apply.json';
+$changeSet_file_name = 'changeSet_to_apply.mysql.sql';
 
 $fp = fopen($changeSet_file_name, 'w');
-fwrite($fp, json_encode($json->changes[0]));
+// fwrite($fp, json_encode($json->changes[0]));
+
+fwrite($fp, "-- liquibase formatted sql\n\n");
+
+for($i=0; $i<count($json->changes); $i++){
+    fwrite($fp, ("-- changeset www-data:" . $json->changes_id[$i] . "\n"));
+    fwrite($fp, ($json->changes[$i] . "\n\n"));
+}
+
 fclose($fp);
 
 $conn_data = $json->conn_data[0];

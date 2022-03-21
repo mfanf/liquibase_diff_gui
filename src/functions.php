@@ -83,4 +83,33 @@ function do_diffCahngelog($post_data, $chlog_file){
     return [$conn_data, $query, $last_line, $retval];
 }
 
+
+function read_sql_changelog($sqlfilepath){
+    
+    $changes = [];
+    $changes_id = [];
+    $sqlfile = fopen($sqlfilepath, "r") or die("Unable to open file!");
+    // Output one line until end-of-file
+    while(!feof($sqlfile)) {
+        $line =  fgets($sqlfile);
+        $line = rtrim($line, "\r\n");
+        $line_arr = preg_split('//', $line, -1, PREG_SPLIT_NO_EMPTY);
+        if(!empty($line_arr[0])){
+            if($line_arr[0] != '-'){
+                array_push($changes,$line);
+            }
+            else{
+                // -- changeset www-data:1647861507129-1
+                $tmp = preg_split('/[\s,:]+/', $line, -1, PREG_SPLIT_NO_EMPTY);
+                if($tmp[1] == "changeset"){
+                    array_push($changes_id, $tmp[3]);
+                }
+                
+            }
+        }
+    }
+    fclose($sqlfile);
+    return [$changes, $changes_id];
+}
+
 ?>
