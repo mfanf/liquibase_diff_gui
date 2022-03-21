@@ -42,6 +42,7 @@ function check_checker() {
    document.getElementById("selector_div").style.display = "none";
 
    listContainer = document.getElementById("json_changes");
+   listContainer.innerHTML = "";
    listElement = document.createElement('ul');
    listContainer.appendChild(listElement);
     for (i = 0; i < up_sql.length; ++i) {
@@ -153,3 +154,7 @@ function send_changelog_sql( conn_data ){
     
  }
 
+function review_changelog(){
+   document.getElementById("selector_div").style.display = "block";
+   document.getElementById("updated_changelog").style.display = "none";
+}

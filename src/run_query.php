@@ -101,6 +101,7 @@
    <div class="button_div">
    <!-- <button onclick='send_changelog_sql(<?php echo $js_conn_data; ?>);' class="button">Send changes</button> -->
    <button onclick='send_changelog_sql(<?php echo $js_conn_data; ?>);' class="button">Send changes</button>
+   <button onclick='review_changelog();' class="button">Review changes</button>
    </div>
 </div>
 
