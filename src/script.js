@@ -21,20 +21,19 @@ function check_checker() {
 
    var checkedValue = []; 
    var inputElements = document.getElementsByClassName('changeCheckbox');
-   console.log(inputElements)
+   //console.log(inputElements);
    for(var i=0; inputElements[i]; ++i){
       if(inputElements[i].checked){
          checkedValue.push(i); //(inputElements[i].value);
       }
    }
-
    console.log(checkedValue);
 
    up_sql = [];
    up_ids = [];
    for(var i=0; i < checkedValue.length; i++){
       up_sql.push(sql[checkedValue[i]]);
-      up_ids.push(ids[checkedValue[i]])
+      up_ids.push(ids[checkedValue[i]]);
    }
    console.log(up_sql);
    console.log(up_ids);
@@ -45,14 +44,13 @@ function check_checker() {
    listContainer.innerHTML = "";
    listElement = document.createElement('ul');
    listContainer.appendChild(listElement);
-    for (i = 0; i < up_sql.length; ++i) {
-        listItem = document.createElement('li');
-        listItemDiv = document.createElement('div');
-        listItemDiv.innerHTML = up_ids[i] + "<br>" + up_sql[i];
-        listItem.appendChild(listItemDiv);
-        listElement.appendChild(listItem);
-    }
-
+   for (i = 0; i < up_sql.length; ++i) {
+      listItem = document.createElement('li');
+      listItemDiv = document.createElement('div');
+      listItemDiv.innerHTML = up_ids[i] + "<br>" + up_sql[i];
+      listItem.appendChild(listItemDiv);
+      listElement.appendChild(listItem);
+   }
    document.getElementById("updated_changelog").style.display = "block";
 }
 
@@ -133,10 +131,14 @@ function send_changelog_sql( conn_data ){
           console.log(obj);
           console.log(textstatus);
           console.log(jqXHR);
+            res = JSON.parse(obj.responseText);
+            console.log(res);
+            console.log(res.retval);
+
           //getPhpResponse( obj );
-          if(textstatus==="success"){
+          if(res.retval=="OK"){
             console.log('sent!');
-            
+
             document.getElementById("updated_changelog").style.display = "none";
             document.getElementById("final_result").innerHTML += "<h3>Success!</h3><p>All changes have been applied to target DB.</p>";
             document.getElementById("final_result").innerHTML += "<div id='back'><a href='index.php'>Back</a></div>";

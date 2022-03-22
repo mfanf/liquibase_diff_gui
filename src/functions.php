@@ -78,9 +78,9 @@ function do_diffCahngelog($post_data, $chlog_file){
     ' --changelog-file=' . $chlog_file . 
     ' diff-changelog';
 
-    $last_line = system($query, $retval);
+    $output = shell_exec($query . " 2>&1");
 
-    return [$conn_data, $query, $last_line, $retval];
+    return [$conn_data, $query, $output];
 }
 
 

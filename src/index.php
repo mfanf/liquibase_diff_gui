@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
     <head>
     <link rel="stylesheet" href="form_style.css?version=2">
     </head>

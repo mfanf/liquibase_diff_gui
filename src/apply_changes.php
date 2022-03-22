@@ -42,11 +42,17 @@ $query = 'liquibase --url="' . $tar_driver . '://' . $conn_data->tar_url . ':' .
 ' update';
 
 // $last_line = system($query, $retval);
-$output = shell_exec($query);
+$output = shell_exec($query . " 2>&1");
+$outerror = strpos($stdout, "Unexpected error");
+if(!($outerror)){
+    $retval = "OK";
+}else{
+    $retval = "KO";
+}
 
 echo '[{"responce": "' . str_replace(['"'],'\"',$query) . '",' .
-        '"retval": "' . $output . '"' .
+        '"retval": "' . $retval . '"' .
     '}]';
 
-
+// str_replace(['"'],'\"',$output)
 ?>
